@@ -30,8 +30,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - persist_to_workspace:
           root: ~/repo
-          paths:
-            - node_modules/*
       # - run:
       #     name: "JavaScript Linter"
       #     command: yarn lint --format junit -o reports/junit/js-lint-results.xml
@@ -84,7 +82,7 @@ workflows:
   lint-test-build-deploy:
     jobs:
       - test
-      - build-storybook
+      - build-storybook:
           requires:
             - test
       - publish:

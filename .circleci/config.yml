@@ -81,6 +81,7 @@ jobs:
   
 
 workflows:
+  version: 2
   lint-test-build-deploy:
     jobs:
       - test

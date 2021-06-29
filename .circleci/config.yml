@@ -32,18 +32,18 @@ jobs:
           root: ~/repo
           paths:
             - node_modules/*
-      - run:
-          name: "JavaScript Linter"
-          command: yarn lint --format junit -o reports/junit/js-lint-results.xml
-      - run:
-          name: "JavaScript Test Suite"
-          environment:
-            JEST_JUNIT_OUTPUT: reports/junit/js-test-results.xml
-          command: yarn test --ci
-      - store_test_results:
-          path: reports/junit
-      - store_artifacts:
-          path: reports/junit
+      # - run:
+      #     name: "JavaScript Linter"
+      #     command: yarn lint --format junit -o reports/junit/js-lint-results.xml
+      # - run:
+      #     name: "JavaScript Test Suite"
+      #     environment:
+      #       JEST_JUNIT_OUTPUT: reports/junit/js-test-results.xml
+      #     command: yarn test --ci
+      # - store_test_results:
+      #     path: reports/junit
+      # - store_artifacts:
+      #     path: reports/junit
   publish:
     <<: *defaults
     steps:
@@ -66,18 +66,18 @@ jobs:
           root: ~/repo
           paths:
             - storybook-static
-  deploy-storybook:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_SECRET_KEY
-          aws-region: AWS_REGION
-      - run:
-          name: AWS S3 Sync
-          command: aws s3 sync storybook-static s3://$AWS_S3_BUCKET_NAME --delete
+  # deploy-storybook:
+  #   <<: *defaults
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/repo
+  #     - aws-cli/setup:
+  #         aws-access-key-id: AWS_ACCESS_KEY
+  #         aws-secret-access-key: AWS_SECRET_KEY
+  #         aws-region: AWS_REGION
+  #     - run:
+  #         name: AWS S3 Sync
+  #         command: aws s3 sync storybook-static s3://$AWS_S3_BUCKET_NAME --delete
   
 
 workflows:
@@ -94,11 +94,11 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy-storybook:
-          requires:
-            - test
-            - build-storybook
-            - publish
-          filters:
-            branches:
-              only: master
+      # - deploy-storybook:
+      #     requires:
+      #       - test
+      #       - build-storybook
+      #       - publish
+      #     filters:
+      #       branches:
+      #         only: master
